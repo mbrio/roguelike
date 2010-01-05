@@ -14,15 +14,49 @@
 
 goog.provide("roguelike.game.Game");
 goog.require("goog.dom");
+goog.require("goog.events");
+goog.require("goog.events.EventTarget");
+goog.require('goog.graphics.CanvasGraphics');
+goog.require('roguelike.Browser');
+goog.require('roguelike.Errors')
 
-roguelike.game.Game = function(container) {
-	if (container == null) throw "The game's containing object could not be found.";
+roguelike.game.Game = function(container) {	
+	this.container_ = container;	
+	this.validate_();
+}
+goog.inherits(roguelike.game.Game, goog.events.EventTarget);
+
+roguelike.game.Game.prototype.isValid = function() {
+	return this.valid_;
+}
+
+roguelike.game.Game.prototype.validate_ = function() {
+	if (this.container_ == null) this.invalid_('noContainer');
+	else if (!roguelike.Browser.hasCanvas()) this.invalid_('noCanvas');
+	else this.valid_ = true;
+}
+
+roguelike.game.Game.prototype.invalid_ = function(error) {
+	this.valid_ = false;
 	
-	this.container = container;
+	var output = roguelike.t.Game[error];
+	if (output != null) goog.dom.appendChild(this.container_, goog.dom.htmlToDocumentFragment(output()));
+			
+	var callback = roguelike.Errors[error];
+	if (callback != null) callback();
+}
+
+roguelike.game.Game.prototype.dispose = function() {
+	if (!this.disposed_) {
+		this.disposed_ = true;
+		console.debug("Disposing of a game.");
+	}
 }
 
 roguelike.game.Game.prototype.init = function() {
-	console.info("Initializing a new game.");
+	if (!this.isValid()) return;
+	
+	console.debug("Initializing a new game.");
 }
 
 roguelike.game.Game.init = function(id) {
