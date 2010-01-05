@@ -12,9 +12,12 @@
 
 // Copyright 2010 Michael Diolosa <michael.diolosa@gmail.com>. All Rights Reserved.
 
-goog.provide("roguelike.Browser");
-goog.require("goog.dom");
+goog.provide("game.Errors");
 
-roguelike.Browser.hasCanvas = function() {
-	return !!goog.dom.$dom('canvas').getContext
+game.Errors.noContainer = function() {
+	throw "The game's containing object could not be found.";
+}
+
+game.Errors.noCanvas = function() {
+	throw "Your browser does not support canvas.";
 }

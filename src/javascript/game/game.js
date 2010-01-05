@@ -12,7 +12,8 @@
 
 // Copyright 2010 Michael Diolosa <michael.diolosa@gmail.com>. All Rights Reserved.
 
-goog.provide("roguelike.game.Game");
+goog.provide("game.Game");
+
 goog.require("goog.dom");
 goog.require("goog.events");
 goog.require("goog.events.EventTarget");
@@ -20,10 +21,10 @@ goog.require('goog.graphics.CanvasGraphics');
 goog.require('goog.graphics.Stroke');
 goog.require('goog.graphics.SolidFill');
 goog.require('goog.graphics.Font');
-goog.require('roguelike.Browser');
-goog.require('roguelike.Errors')
+goog.require('game.Browser');
+goog.require('game.Errors')
 
-roguelike.game.Game = function(container) {	
+game.Game = function(container) {	
 	this.container_ = container;
 	this.graphics_ = null;
 	
@@ -47,9 +48,9 @@ roguelike.game.Game = function(container) {
 		fps: new goog.graphics.SolidFill('white')
 	}
 }
-goog.inherits(roguelike.game.Game, goog.events.EventTarget);
+goog.inherits(game.Game, goog.events.EventTarget);
 
-roguelike.game.Game.prototype.resetFrames_ = function() {
+game.Game.prototype.resetFrames_ = function() {
 	this.renderDelay_ = 1000 / this.targetFramerate_,
     this.stepDelay_ = 1000 / this.targetFramerate_,
 
@@ -62,27 +63,27 @@ roguelike.game.Game.prototype.resetFrames_ = function() {
 	this.renderFps_ = 0;
 }
 
-roguelike.game.Game.prototype.isValid = function() {
+game.Game.prototype.isValid = function() {
 	return this.valid_;
 }
 
-roguelike.game.Game.prototype.validate_ = function() {
+game.Game.prototype.validate_ = function() {
 	if (this.container_ == null) this.invalid_('noContainer');
-	else if (!roguelike.Browser.hasCanvas()) this.invalid_('noCanvas');
+	else if (!game.Browser.hasCanvas()) this.invalid_('noCanvas');
 	else this.valid_ = true;
 }
 
-roguelike.game.Game.prototype.invalid_ = function(error) {
+game.Game.prototype.invalid_ = function(error) {
 	this.valid_ = false;
 	
-	var output = roguelike.t.Game[error];
+	var output = game.t.Game[error];
 	if (output != null) goog.dom.appendChild(this.container_, goog.dom.htmlToDocumentFragment(output()));
 			
-	var callback = roguelike.Errors[error];
+	var callback = game.Errors[error];
 	if (callback != null) callback();
 }
 
-roguelike.game.Game.prototype.dispose = function() {
+game.Game.prototype.dispose = function() {
 	if (!this.disposed_) {		
 		console.debug("Disposing of a game.");
 
@@ -96,7 +97,7 @@ roguelike.game.Game.prototype.dispose = function() {
 	}
 }
 
-roguelike.game.Game.prototype.init = function() {
+game.Game.prototype.init = function() {
 	if (!this.isValid()) return;
 	
 	console.debug("Initializing a new game.");
@@ -105,8 +106,8 @@ roguelike.game.Game.prototype.init = function() {
 	this.graphics_.render(this.container_);
 }
 
-roguelike.game.Game.prototype.renderCycle_ = function() {
-	var game = this;
+game.Game.prototype.renderCycle_ = function() {
+	var g = this;
 	var now = new Date().getTime();
 	
     this.renderDelta_ = now - this.lastRender_;
@@ -121,11 +122,11 @@ roguelike.game.Game.prototype.renderCycle_ = function() {
 	
     this.lastRender_ = now;
 
-    this.renderInterval_ = setTimeout(function() { game.renderCycle_(); }, this.renderDelay_);
+    this.renderInterval_ = setTimeout(function() { g.renderCycle_(); }, this.renderDelay_);
 }
 
-roguelike.game.Game.prototype.stepCycle_ = function() {
-	var game = this;
+game.Game.prototype.stepCycle_ = function() {
+	var g = this;
 	var now = new Date().getTime();
 	
     this.stepDelta_ = now - this.lastStep_;
@@ -135,10 +136,10 @@ roguelike.game.Game.prototype.stepCycle_ = function() {
 	
     this.lastStep_ = now;
 
-    this.stepInterval_ = setTimeout(function() { game.stepCycle_(); }, this.stepDelay_);
+    this.stepInterval_ = setTimeout(function() { g.stepCycle_(); }, this.stepDelay_);
 }
 
-roguelike.game.Game.prototype.stop = function() {
+game.Game.prototype.stop = function() {
 	if (this.stepInterval_ != null) {
         clearInterval(this.stepInterval_);
         this.stepInterval_ = null;
@@ -150,7 +151,7 @@ roguelike.game.Game.prototype.stop = function() {
     }
 }
 
-roguelike.game.Game.prototype.start = function() {
+game.Game.prototype.start = function() {
 	if (!this.isValid()) return;
 	
 	this.lastStep_ = new Date().getTime();
@@ -160,10 +161,10 @@ roguelike.game.Game.prototype.start = function() {
 	this.renderCycle_();
 }
 
-roguelike.game.Game.init = function(id) {
-	var game = new roguelike.game.Game(goog.dom.$(id));
-	game.init();
-	game.start();
+game.Game.init = function(id) {
+	var g = new game.Game(goog.dom.$(id));
+	g.init();
+	g.start();
 	
-	return game;
+	return g;
 }
