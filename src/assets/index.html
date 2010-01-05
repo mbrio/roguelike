@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<meta charset="utf-8">
+		<title>Roguelike</title>
+		<script src="javascript/application.js"></script>
+		<script>
+			goog.events.listen(window, "load", function() {
+				var game = roguelike.game.Game.init("game-container");
+			});
+		</script>
+	</head>
+	<body>
+		<div id="game-container">
+		</div>
+	</body>
+</html>

@@ -1,11 +1,11 @@
 <project name="compiler" basedir="." default="js">
 	
 	<!-- UPDATE THIS SECTION FOR YOUR OWN CONFIGURATION -->
-	<property name="jsdoc.dir" value="/Users/#####/Source/closure/lib/jsdoc-toolkit/jsdoc-toolkit" />
-	<property name="closure.path" value="/Users//#####/Source/closure/lib/closure" />
-	<property name="soy.file" value="/Users//#####/Source/closure/lib/closure-templates/build/SoyToJsSrcCompiler.jar" />
-	<property name="compiler.file" value="/Users//#####/Source/closure/lib/closure-compiler/build/compiler.jar" />
-	<property name="calcdeps.file" value="/Users//#####/Source/closure/lib/closure/closure/bin/calcdeps.py" />
+	<property name="jsdoc.dir" value="/Users/mbrio/Source/closure/lib/jsdoc-toolkit/jsdoc-toolkit" />
+	<property name="closure.path" value="/Users//mbrio/Source/closure/lib/closure" />
+	<property name="soy.file" value="/Users//mbrio/Source/closure/lib/closure-templates/build/SoyToJsSrcCompiler.jar" />
+	<property name="compiler.file" value="/Users//mbrio/Source/closure/lib/closure-compiler/build/compiler.jar" />
+	<property name="calcdeps.file" value="/Users//mbrio/Source/closure/lib/closure/closure/bin/calcdeps.py" />
 	<property name="python.file" value="/usr/bin/python" />
 	
 	<property name="app.name" value="roguelike" />
@@ -47,11 +47,13 @@
 		<exec executable="${python.file}">
 			<arg value="${calcdeps.file}" />
 			<arg value="-i" />
-			<arg value="${src.dir}/" />
+			<arg value="${src.dir}/application.js" />
 			<arg value="-i" />
 			<arg value="${templates.dir}/" />
 			<arg value="-p" />
 			<arg value="${closure.path}" />
+			<arg value="-p" />
+			<arg value="${src.dir}" />
 			<arg value="-o" />
 			<arg value="compiled" />
 			<arg value="-c" />

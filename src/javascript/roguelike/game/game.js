@@ -12,6 +12,22 @@
 
 // Copyright 2010 Michael Diolosa <michael.diolosa@gmail.com>. All Rights Reserved.
 
+goog.provide("roguelike.game.Game");
 goog.require("goog.dom");
-goog.require("goog.events");
-goog.require("roguelike.game.Game");
+
+roguelike.game.Game = function(container) {
+	if (container == null) throw "The game's containing object could not be found.";
+	
+	this.container = container;
+}
+
+roguelike.game.Game.prototype.init = function() {
+	console.info("Initializing a new game.");
+}
+
+roguelike.game.Game.init = function(id) {
+	var game = new roguelike.game.Game(goog.dom.$(id));
+	game.init();
+	
+	return game;
+}
