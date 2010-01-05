@@ -12,20 +12,24 @@
 
 // Copyright 2010 Michael Diolosa <michael.diolosa@gmail.com>. All Rights Reserved.
 
-goog.provide("game.Errors");
+goog.provide("roguelike.MikeSprite");
 
-game.Errors.noContainer = function() {
-	throw "The game's containing object could not be found.";
+goog.require("goog.graphics.SolidFill");
+
+goog.require("game.Sprite");
+
+roguelike.MikeSprite = function() {
+	game.Sprite.call(this);
+	
+	this.width = 100;
+	this.height = 100;
+}
+goog.inherits(roguelike.MikeSprite, game.Sprite);
+
+roguelike.MikeSprite.prototype.render = function(ctx) {
+	ctx.drawRect(this.x, this.y, this.width, this.height, null, new goog.graphics.SolidFill('green'));
 }
 
-game.Errors.noCanvas = function() {
-	throw "Your browser does not support canvas.";
-}
-
-game.Errors.spriteHasParent = function() {
-	throw "The sprite already belongs to another container";
-}
-
-game.Errors.spriteDoesNotBelong = function() {
-	throw "The sprite does not belong to this container";
+roguelike.MikeSprite.prototype.step = function(delta) {
+	
 }

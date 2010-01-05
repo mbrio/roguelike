@@ -21,10 +21,16 @@ goog.require('goog.graphics.CanvasGraphics');
 goog.require('goog.graphics.Stroke');
 goog.require('goog.graphics.SolidFill');
 goog.require('goog.graphics.Font');
+
 goog.require('game.Browser');
 goog.require('game.Errors')
+goog.require('game.SpriteContainer')
 
-game.Game = function(container) {	
+goog.require('roguelike.MikeSprite');
+
+game.Game = function(container) {
+	goog.events.EventTarget.call(this);
+	
 	this.container_ = container;
 	this.graphics_ = null;
 	
@@ -118,6 +124,15 @@ game.Game.prototype.renderCycle_ = function() {
 	this.graphics_.drawText(this.renderFps_, 10, 10, 100, 100, 'left', 'top', this.fonts_.fps, null, this.colors_.fps);
 	this.graphics_.drawText(this.stepFps_, 10, 30, 100, 100, 'left', 'top', this.fonts_.fps, null, this.colors_.fps);
 	
+	var s1 = new roguelike.MikeSprite();
+	var s2 = new roguelike.MikeSprite();
+	s2.y = 400;
+	var c = new game.SpriteContainer();
+	c.setParent(this);
+	c.addSprite(s1);
+	c.addSprite(s2);
+	c.render(this.graphics_);
+	c.dispose();
 	// do something
 	
     this.lastRender_ = now;

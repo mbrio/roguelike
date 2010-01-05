@@ -29,10 +29,10 @@
 			</noscript>
 		</div>
 		<script>
-			var game = game.Game.init("game-container");
-			//goog.events.listen(window, "unload", function() {
-			//	if (game != null) game.dispose();
-			//});
+			var g = game.Game.init("game-container");
+			goog.events.listen(window, "unload", function() {
+				if (g != null) g.dispose();
+			});
 		</script>
 	</body>
 </html>

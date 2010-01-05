@@ -12,20 +12,19 @@
 
 // Copyright 2010 Michael Diolosa <michael.diolosa@gmail.com>. All Rights Reserved.
 
-goog.provide("game.Errors");
+goog.provide("game.DrawableObject");
+goog.require("game.GameObject");
 
-game.Errors.noContainer = function() {
-	throw "The game's containing object could not be found.";
+game.DrawableObject = function() {
+	game.GameObject.call(this);
+	
+	this.x = 0;
+	this.y = 0;
+	this.width = 0;
+	this.height = 0;
 }
+goog.inherits(game.DrawableObject, game.GameObject);
 
-game.Errors.noCanvas = function() {
-	throw "Your browser does not support canvas.";
-}
-
-game.Errors.spriteHasParent = function() {
-	throw "The sprite already belongs to another container";
-}
-
-game.Errors.spriteDoesNotBelong = function() {
-	throw "The sprite does not belong to this container";
+game.DrawableObject.prototype.isDrawable = function() {
+	return this.getParent() != null;
 }
