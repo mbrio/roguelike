@@ -26,8 +26,6 @@ goog.require('game.Browser');
 goog.require('game.Errors')
 goog.require('game.SpriteContainer')
 
-goog.require('roguelike.MikeSprite');
-
 game.Game = function(container) {
 	goog.events.EventTarget.call(this);
 	
@@ -44,15 +42,6 @@ game.Game = function(container) {
 	
 	this.validate_();
 	this.resetFrames_();
-	
-	this.fonts_ = {
-		fps: new goog.graphics.Font(12, "Helvetica Neue,Arial")
-	}
-	
-	this.colors_ = {
-		background: new goog.graphics.SolidFill('blue'),
-		fps: new goog.graphics.SolidFill('white')
-	}
 }
 goog.inherits(game.Game, goog.events.EventTarget);
 
@@ -120,25 +109,14 @@ game.Game.prototype.renderCycle_ = function() {
 	this.renderFps_ = 1000 / this.renderDelta_;
 
     this.graphics_.clear();
-	this.graphics_.drawRect(0, 0, this.width_, this.height_, null, this.colors_.background)
-	this.graphics_.drawText(this.renderFps_, 10, 10, 100, 100, 'left', 'top', this.fonts_.fps, null, this.colors_.fps);
-	this.graphics_.drawText(this.stepFps_, 10, 30, 100, 100, 'left', 'top', this.fonts_.fps, null, this.colors_.fps);
-	
-	var s1 = new roguelike.MikeSprite();
-	var s2 = new roguelike.MikeSprite();
-	s2.y = 400;
-	var c = new game.SpriteContainer();
-	c.setParent(this);
-	c.addSprite(s1);
-	c.addSprite(s2);
-	c.render(this.graphics_);
-	c.dispose();
-	// do something
+
+	this.render(this.graphics_);
 	
     this.lastRender_ = now;
 
     this.renderInterval_ = setTimeout(function() { g.renderCycle_(); }, this.renderDelay_);
 }
+game.Game.prototype.render = function(ctx) {}
 
 game.Game.prototype.stepCycle_ = function() {
 	var g = this;
@@ -147,12 +125,13 @@ game.Game.prototype.stepCycle_ = function() {
     this.stepDelta_ = now - this.lastStep_;
 	this.stepFps_ = 1000 / this.stepDelta_;
 
-	// do something
+	this.step(this.stepDelta_);
 	
     this.lastStep_ = now;
 
     this.stepInterval_ = setTimeout(function() { g.stepCycle_(); }, this.stepDelay_);
 }
+game.Game.prototype.step = function(delta) {}
 
 game.Game.prototype.stop = function() {
 	if (this.stepInterval_ != null) {

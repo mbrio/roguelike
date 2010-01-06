@@ -43,6 +43,42 @@ game.SpriteContainer.prototype.removeSprite = function(sprite) {
 	goog.array.remove(this.sprites_, sprite);
 }
 
+game.SpriteContainer.prototype.moveToBack = function(sprite) {
+    if (sprite.getParent() != this) game.Errors.spriteDoesNotBelong();
+
+	goog.array.remove(this.sprites_, sprite);
+	goog.array.insertAt(this.sprites_, sprite, 0);
+}
+
+game.SpriteContainer.prototype.moveBackward = function(sprite) {
+    if (sprite.getParent() != this) game.Errors.spriteDoesNotBelong();
+
+	var i = goog.array.indexOf(this.sprites_, sprite);
+	
+	if (i > 0) {
+		goog.array.remove(this.sprites_, sprite);
+		goog.array.insertAt(this.sprites_, sprite, i - 1);
+	}
+}
+
+game.SpriteContainer.prototype.moveForward = function(sprite) {
+    if (sprite.getParent() != this) game.Errors.spriteDoesNotBelong();
+
+	var i = goog.array.indexOf(this.sprites_, sprite);
+	
+	if (i < this.sprites_.length - 1) {
+		goog.array.remove(this.sprites_, sprite);
+		goog.array.insertAt(this.sprites_, sprite, i + 1);
+	}
+}
+
+game.SpriteContainer.prototype.moveToFront = function(sprite) {
+    if (sprite.getParent() != this) game.Errors.spriteDoesNotBelong();
+
+	goog.array.remove(this.sprites_, sprite);
+	goog.array.insertAt(this.sprites_, sprite, this.sprites_.length);
+}
+
 game.SpriteContainer.prototype.render = function(ctx) {
 	goog.array.forEach(this.sprites_, function(obj, i, arr) {
 		obj.render(ctx);

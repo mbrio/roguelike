@@ -13,6 +13,7 @@
 // Copyright 2010 Michael Diolosa <michael.diolosa@gmail.com>. All Rights Reserved.
 
 goog.provide("roguelike.MikeSprite");
+goog.provide("roguelike.AnnaSprite");
 
 goog.require("goog.graphics.SolidFill");
 
@@ -29,7 +30,17 @@ goog.inherits(roguelike.MikeSprite, game.Sprite);
 roguelike.MikeSprite.prototype.render = function(ctx) {
 	ctx.drawRect(this.x, this.y, this.width, this.height, null, new goog.graphics.SolidFill('green'));
 }
+roguelike.MikeSprite.prototype.step = function(delta) {}
 
-roguelike.MikeSprite.prototype.step = function(delta) {
+roguelike.AnnaSprite = function() {
+	game.Sprite.call(this);
 	
+	this.width = 100;
+	this.height = 100;
 }
+goog.inherits(roguelike.AnnaSprite, game.Sprite);
+
+roguelike.AnnaSprite.prototype.render = function(ctx) {
+	ctx.drawRect(this.x, this.y, this.width, this.height, null, new goog.graphics.SolidFill('yellow'));
+}
+roguelike.AnnaSprite.prototype.step = function(delta) {}

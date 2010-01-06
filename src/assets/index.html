@@ -29,7 +29,7 @@
 			</noscript>
 		</div>
 		<script>
-			var g = game.Game.init("game-container");
+			var g = roguelike.Roguelike.init("game-container");
 			goog.events.listen(window, "unload", function() {
 				if (g != null) g.dispose();
 			});

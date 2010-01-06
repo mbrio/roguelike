@@ -14,4 +14,4 @@
 
 goog.require("goog.dom");
 goog.require("goog.events");
-goog.require("game.Game");
+goog.require("roguelike.Roguelike");
