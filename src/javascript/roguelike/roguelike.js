@@ -44,7 +44,7 @@ roguelike.Roguelike.prototype.render = function(ctx) {
 	ctx.drawText(this.renderFps_, 10, 10, 100, 100, 'left', 'top', this.fonts_.fps, null, this.colors_.fps);
 	ctx.drawText(this.stepFps_, 10, 30, 100, 100, 'left', 'top', this.fonts_.fps, null, this.colors_.fps);
 	
-	this.c.render(this.graphics_);
+	roguelike.Roguelike.superClass_.render.call(this, ctx);
 }
 
 roguelike.Roguelike.prototype.init = function() {
@@ -60,12 +60,15 @@ roguelike.Roguelike.prototype.init = function() {
 	this.s4 = new roguelike.MikeSprite();
 	this.s4.y = 75;
 	this.s4.x = 75;
-	this.c = new game.SpriteContainer();
-	this.c.setParent(this);
+	this.c = new game.Container();
+	this.addSprite(this.c);
 	this.c.addSprite(this.s1);
 	this.c.addSprite(this.s2);
-	this.c.addSprite(this.s3);
-	this.c.addSprite(this.s4);
+	
+	this.ca = new game.Container();
+	this.addSprite(this.ca);
+	this.ca.addSprite(this.s3);
+	this.ca.addSprite(this.s4);
 	
 	this.attachEvents();
 }
@@ -79,9 +82,9 @@ roguelike.Roguelike.prototype.attachEvents = function() {
 		} else if (e.keyCode == goog.events.KeyCodes.DOWN) {
 			r.s2.moveBackward();
 		} else if (e.keyCode == goog.events.KeyCodes.LEFT) {
-			r.s2.moveToBack();
+			r.ca.moveToBack();
 		} else if (e.keyCode == goog.events.KeyCodes.RIGHT) {
-			r.s2.moveToFront();
+			r.ca.moveToFront();
 		}
 	});
 }
@@ -94,7 +97,6 @@ roguelike.Roguelike.prototype.removeEvents = function() {
 }
 
 roguelike.Roguelike.prototype.dispose = function() {
-	this.c.dispose();
 	this.removeEvents();
 	
 	roguelike.Roguelike.superClass_.dispose.call(this);

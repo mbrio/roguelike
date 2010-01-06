@@ -29,23 +29,3 @@ goog.inherits(game.DrawableObject, game.GameObject);
 game.DrawableObject.prototype.isDrawable = function() {
 	return this.getParent() != null;
 }
-
-game.DrawableObject.prototype.moveToBack = function() {
-	var parent = this.getParent();
-	if (parent != null) parent.moveToBack(this);
-}
-
-game.DrawableObject.prototype.moveBackward = function() {
-	var parent = this.getParent();
-	if (parent != null) parent.moveBackward(this);
-}
-
-game.DrawableObject.prototype.moveForward = function() {
-	var parent = this.getParent();
-	if (parent != null) parent.moveForward(this);    
-}
-
-game.DrawableObject.prototype.moveToFront = function() {
-	var parent = this.getParent();
-	if (parent != null) parent.moveToFront(this);
-}

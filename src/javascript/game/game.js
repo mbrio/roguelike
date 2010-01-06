@@ -24,10 +24,10 @@ goog.require('goog.graphics.Font');
 
 goog.require('game.Browser');
 goog.require('game.Errors')
-goog.require('game.SpriteContainer')
+goog.require('game.Container')
 
 game.Game = function(container) {
-	goog.events.EventTarget.call(this);
+	game.Container.call(this);
 	
 	this.container_ = container;
 	this.graphics_ = null;
@@ -43,7 +43,7 @@ game.Game = function(container) {
 	this.validate_();
 	this.resetFrames_();
 }
-goog.inherits(game.Game, goog.events.EventTarget);
+goog.inherits(game.Game, game.Container);
 
 game.Game.prototype.resetFrames_ = function() {
 	this.renderDelay_ = 1000 / this.targetFramerate_,
@@ -79,7 +79,7 @@ game.Game.prototype.invalid_ = function(error) {
 }
 
 game.Game.prototype.dispose = function() {
-	if (!this.disposed_) {		
+	if (!this.disposed_) {	
 		console.debug("Disposing of a game.");
 
 		this.stop();
@@ -88,6 +88,7 @@ game.Game.prototype.dispose = function() {
 		
 		this.container_ = null;
 		
+		game.Game.superClass_.dispose.call(this);
 		this.disposed_ = true;
 	}
 }
@@ -116,7 +117,6 @@ game.Game.prototype.renderCycle_ = function() {
 
     this.renderInterval_ = setTimeout(function() { g.renderCycle_(); }, this.renderDelay_);
 }
-game.Game.prototype.render = function(ctx) {}
 
 game.Game.prototype.stepCycle_ = function() {
 	var g = this;
@@ -131,7 +131,6 @@ game.Game.prototype.stepCycle_ = function() {
 
     this.stepInterval_ = setTimeout(function() { g.stepCycle_(); }, this.stepDelay_);
 }
-game.Game.prototype.step = function(delta) {}
 
 game.Game.prototype.stop = function() {
 	if (this.stepInterval_ != null) {

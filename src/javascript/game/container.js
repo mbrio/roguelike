@@ -12,45 +12,45 @@
 
 // Copyright 2010 Michael Diolosa <michael.diolosa@gmail.com>. All Rights Reserved.
 
-goog.provide("game.SpriteContainer");
+goog.provide("game.Container");
 
 goog.require("goog.array");
 
 goog.require("game.GameObject");
 goog.require("game.Errors");
 
-game.SpriteContainer = function() {
+game.Container = function() {
 	game.GameObject.call(this);
 	this.sprites_ = [];
 }
-goog.inherits(game.SpriteContainer, game.GameObject);
+goog.inherits(game.Container, game.GameObject);
 
-game.SpriteContainer.prototype.getSpriteAt = function(i) {
+game.Container.prototype.getSpriteAt = function(i) {
 	return this.sprites_[i];
 }
 
-game.SpriteContainer.prototype.addSprite = function(sprite) {
+game.Container.prototype.addSprite = function(sprite) {
     if (sprite.getParent() != null) game.Errors.spriteHasParent();
 
 	sprite.setParent(this);
 	goog.array.insert(this.sprites_, sprite);
 }
 
-game.SpriteContainer.prototype.removeSprite = function(sprite) {
+game.Container.prototype.removeSprite = function(sprite) {
     if (sprite.getParent() != this) game.Errors.spriteDoesNotBelong();
 
 	sprite.setParent(null);
 	goog.array.remove(this.sprites_, sprite);
 }
 
-game.SpriteContainer.prototype.moveToBack = function(sprite) {
+game.Container.prototype.moveChildToBack = function(sprite) {
     if (sprite.getParent() != this) game.Errors.spriteDoesNotBelong();
 
 	goog.array.remove(this.sprites_, sprite);
 	goog.array.insertAt(this.sprites_, sprite, 0);
 }
 
-game.SpriteContainer.prototype.moveBackward = function(sprite) {
+game.Container.prototype.moveChildBackward = function(sprite) {
     if (sprite.getParent() != this) game.Errors.spriteDoesNotBelong();
 
 	var i = goog.array.indexOf(this.sprites_, sprite);
@@ -61,7 +61,7 @@ game.SpriteContainer.prototype.moveBackward = function(sprite) {
 	}
 }
 
-game.SpriteContainer.prototype.moveForward = function(sprite) {
+game.Container.prototype.moveChildForward = function(sprite) {
     if (sprite.getParent() != this) game.Errors.spriteDoesNotBelong();
 
 	var i = goog.array.indexOf(this.sprites_, sprite);
@@ -72,31 +72,31 @@ game.SpriteContainer.prototype.moveForward = function(sprite) {
 	}
 }
 
-game.SpriteContainer.prototype.moveToFront = function(sprite) {
+game.Container.prototype.moveChildToFront = function(sprite) {
     if (sprite.getParent() != this) game.Errors.spriteDoesNotBelong();
 
 	goog.array.remove(this.sprites_, sprite);
 	goog.array.insertAt(this.sprites_, sprite, this.sprites_.length);
 }
 
-game.SpriteContainer.prototype.render = function(ctx) {
+game.Container.prototype.render = function(ctx) {
 	goog.array.forEach(this.sprites_, function(obj, i, arr) {
 		obj.render(ctx);
 	});
 }
 
-game.SpriteContainer.prototype.step = function(delta) {
+game.Container.prototype.step = function(delta) {
 	goog.array.forEach(this.sprites_, function(obj, i, arr) {
 		obj.step(delta);
 	});
 }
 
-game.SpriteContainer.prototype.dispose = function() {	
+game.Container.prototype.dispose = function() {	
 	goog.array.forEach(this.sprites_, function(obj, i, arr) {
 		obj.dispose();
 	});
 	
 	goog.array.clear(this.sprites_);
 	
-	game.SpriteContainer.superClass_.dispose.call(this);
+	game.Container.superClass_.dispose.call(this);
 }

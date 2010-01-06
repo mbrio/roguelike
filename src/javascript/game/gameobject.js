@@ -29,6 +29,26 @@ game.GameObject.prototype.setParent = function(parent) {
 	this.parent_ = parent;
 }
 
+game.GameObject.prototype.moveToBack = function() {
+	var parent = this.getParent();
+	if (parent != null) parent.moveChildToBack(this);
+}
+
+game.GameObject.prototype.moveBackward = function() {
+	var parent = this.getParent();
+	if (parent != null) parent.moveChildBackward(this);
+}
+
+game.GameObject.prototype.moveForward = function() {
+	var parent = this.getParent();
+	if (parent != null) parent.moveChildForward(this);    
+}
+
+game.GameObject.prototype.moveToFront = function() {
+	var parent = this.getParent();
+	if (parent != null) parent.moveChildToFront(this);
+}
+
 game.GameObject.prototype.render = goog.abstractMethod;
 game.GameObject.prototype.step = goog.abstractMethod;
 

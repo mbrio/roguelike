@@ -13,9 +13,9 @@
 // Copyright 2010 Michael Diolosa <michael.diolosa@gmail.com>. All Rights Reserved.
 
 goog.provide("game.Scene");
-goog.require("game.SpriteContainer");
+goog.require("game.Container");
 
 game.Scene = function() {
 	game.GameObject.call(this);
 }
-goog.inherits(game.Scene, game.SpriteContainer);
+goog.inherits(game.Scene, game.Container);
