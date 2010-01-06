@@ -12,6 +12,4 @@
 
 // Copyright 2010 Michael Diolosa <michael.diolosa@gmail.com>. All Rights Reserved.
 
-goog.require("goog.dom");
-goog.require("goog.events");
 goog.require("roguelike.Roguelike");

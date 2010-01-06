@@ -155,10 +155,14 @@ game.Game.prototype.start = function() {
 	this.renderCycle_();
 }
 
-game.Game.init = function(id) {
-	var g = new game.Game(goog.dom.$(id));
+game.Game.init = function(id, t, opt_args) {
+	var g = new t(goog.dom.$(id), opt_args);
+	goog.events.listen(window, "unload", function() {
+		if (g != null) g.dispose();
+	});
+	
 	g.init();
 	g.start();
-	
+		
 	return g;
 }

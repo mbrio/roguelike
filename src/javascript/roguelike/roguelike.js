@@ -78,6 +78,10 @@ roguelike.Roguelike.prototype.attachEvents = function() {
 			r.s2.moveForward();
 		} else if (e.keyCode == goog.events.KeyCodes.DOWN) {
 			r.s2.moveBackward();
+		} else if (e.keyCode == goog.events.KeyCodes.LEFT) {
+			r.s2.moveToBack();
+		} else if (e.keyCode == goog.events.KeyCodes.RIGHT) {
+			r.s2.moveToFront();
 		}
 	});
 }
@@ -94,12 +98,4 @@ roguelike.Roguelike.prototype.dispose = function() {
 	this.removeEvents();
 	
 	roguelike.Roguelike.superClass_.dispose.call(this);
-}
-
-roguelike.Roguelike.init = function(id) {
-	var g = new roguelike.Roguelike(goog.dom.$(id));
-	g.init();
-	g.start();
-	
-	return g;
 }
