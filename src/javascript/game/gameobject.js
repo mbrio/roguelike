@@ -14,19 +14,36 @@
 
 goog.provide("game.GameObject");
 
+goog.require("game.Renderable");
+
 game.GameObject = function() {
-	goog.events.EventTarget.call(this);
+	game.Renderable.call(this);
 	
-	this.parent_ = null;
+	this.x = 0;
+	this.y = 0;
+	this.width = 0;
+	this.height = 0;
 }
-goog.inherits(game.GameObject, goog.events.EventTarget);
+goog.inherits(game.GameObject, game.Renderable);
 
-game.GameObject.prototype.getParent = function() {
-	return this.parent_;
+game.GameObject.prototype.getPositionX = function()
+{
+	var parent = this.getParent();
+	var x = this.x;
+	
+	if (parent != null) x += parent.getPositionX();
+	
+	return x;
 }
 
-game.GameObject.prototype.setParent = function(parent) {
-	this.parent_ = parent;
+game.GameObject.prototype.getPositionY = function()
+{
+	var parent = this.getParent();
+	var y = this.y;
+	
+	if (parent != null) y += parent.getPositionY();
+	
+	return y;
 }
 
 game.GameObject.prototype.moveToBack = function() {
@@ -47,11 +64,4 @@ game.GameObject.prototype.moveForward = function() {
 game.GameObject.prototype.moveToFront = function() {
 	var parent = this.getParent();
 	if (parent != null) parent.moveChildToFront(this);
-}
-
-game.GameObject.prototype.render = goog.abstractMethod;
-game.GameObject.prototype.step = goog.abstractMethod;
-
-game.GameObject.prototype.dispose = function() {
-	this.setParent(null);
 }

@@ -28,7 +28,7 @@ roguelike.MikeSprite = function() {
 goog.inherits(roguelike.MikeSprite, game.Sprite);
 
 roguelike.MikeSprite.prototype.render = function(ctx) {
-	ctx.drawRect(this.x, this.y, this.width, this.height, null, new goog.graphics.SolidFill('green'));
+	ctx.drawRect(this.getPositionX(), this.getPositionY(), this.width, this.height, null, new goog.graphics.SolidFill('green'));
 }
 roguelike.MikeSprite.prototype.step = function(delta) {}
 
@@ -41,6 +41,6 @@ roguelike.AnnaSprite = function() {
 goog.inherits(roguelike.AnnaSprite, game.Sprite);
 
 roguelike.AnnaSprite.prototype.render = function(ctx) {
-	ctx.drawRect(this.x, this.y, this.width, this.height, null, new goog.graphics.SolidFill('yellow'));
+	ctx.drawRect(this.getPositionX(), this.getPositionY(), this.width, this.height, null, new goog.graphics.SolidFill('yellow'));
 }
 roguelike.AnnaSprite.prototype.step = function(delta) {}

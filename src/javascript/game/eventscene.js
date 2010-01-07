@@ -12,32 +12,26 @@
 
 // Copyright 2010 Michael Diolosa <michael.diolosa@gmail.com>. All Rights Reserved.
 
-goog.provide("game.Scene");
+goog.provide("game.EventScene");
 
-goog.require("game.Group");
+goog.require("game.Scene");
 
-game.Scene = function(name) {
-	game.Group.call(this);
+game.EventScene = function(name) {
+	game.Scene.call(this, name);
+}
+goog.inherits(game.EventScene, game.Scene);
+
+game.EventScene.prototype.begin = function() {
+	game.EventScene.superClass_.begin.call(this);
 	
-	this.name_ = name;
-	this.running_ = false;
-}
-goog.inherits(game.Scene, game.Group);
-
-game.Scene.prototype.getName = function() {
-	return this.name_;
+	this.attachEvents();
 }
 
-game.Scene.prototype.begin = function() {
-	this.running_ = true;
-}
-
-game.Scene.prototype.end = function() {
-	this.running_ = false;
-}
-
-game.Scene.prototype.dispose = function() {
-	if (this.running_) this.end();
+game.EventScene.prototype.end = function() {
+	this.removeEvents();
 	
-	game.Scene.superClass_.dispose.call(this);
+	game.EventScene.superClass_.end.call(this);
 }
+
+game.EventScene.prototype.addEvents = goog.nullFunction;
+game.EventScene.prototype.removeEvents = goog.nullFunction

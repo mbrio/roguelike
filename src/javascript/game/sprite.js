@@ -13,9 +13,9 @@
 // Copyright 2010 Michael Diolosa <michael.diolosa@gmail.com>. All Rights Reserved.
 
 goog.provide("game.Sprite");
-goog.require("game.DrawableObject");
+goog.require("game.GameObject");
 
 game.Sprite = function() {
-	game.DrawableObject.call(this);	
+	game.GameObject.call(this);	
 }
-goog.inherits(game.Sprite, game.DrawableObject);
+goog.inherits(game.Sprite, game.GameObject);

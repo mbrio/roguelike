@@ -12,32 +12,35 @@
 
 // Copyright 2010 Michael Diolosa <michael.diolosa@gmail.com>. All Rights Reserved.
 
-goog.provide("game.Scene");
+goog.provide("game.StoryGame");
 
-goog.require("game.Group");
+goog.require("game.Game");
+goog.require("game.Story");
 
-game.Scene = function(name) {
-	game.Group.call(this);
+game.StoryGame = function(container, opt_story) {
+	game.Game.call(this, container);
 	
-	this.name_ = name;
-	this.running_ = false;
+	if (opt_story != null)
+		this.story_ = opt_story;
+	else
+		this.story_ = new game.Story();
+		
+	this.addSprite(this.story_);
 }
-goog.inherits(game.Scene, game.Group);
+goog.inherits(game.StoryGame, game.Game);
 
-game.Scene.prototype.getName = function() {
-	return this.name_;
-}
-
-game.Scene.prototype.begin = function() {
-	this.running_ = true;
-}
-
-game.Scene.prototype.end = function() {
-	this.running_ = false;
+game.StoryGame.prototype.getStory = function() {
+	return this.story_;
 }
 
-game.Scene.prototype.dispose = function() {
-	if (this.running_) this.end();
+game.StoryGame.prototype.init = function() {	
+	game.StoryGame.superClass_.init.call(this);
 	
-	game.Scene.superClass_.dispose.call(this);
+	this.story_.init();
+}
+
+game.StoryGame.prototype.dispose = function() {
+	this.story_ = null;
+	
+	game.StoryGame.superClass_.dispose.call(this);
 }

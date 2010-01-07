@@ -12,45 +12,47 @@
 
 // Copyright 2010 Michael Diolosa <michael.diolosa@gmail.com>. All Rights Reserved.
 
-goog.provide("game.Container");
+goog.provide("game.Group");
 
 goog.require("goog.array");
 
 goog.require("game.GameObject");
 goog.require("game.Errors");
 
-game.Container = function() {
+game.Group = function() {
 	game.GameObject.call(this);
 	this.sprites_ = [];
 }
-goog.inherits(game.Container, game.GameObject);
+goog.inherits(game.Group, game.GameObject);
 
-game.Container.prototype.getSpriteAt = function(i) {
+game.Group.prototype.getSpriteAt = function(i) {
 	return this.sprites_[i];
 }
 
-game.Container.prototype.addSprite = function(sprite) {
+game.Group.prototype.addSprite = function(sprite) {
     if (sprite.getParent() != null) game.Errors.spriteHasParent();
 
 	sprite.setParent(this);
 	goog.array.insert(this.sprites_, sprite);
 }
 
-game.Container.prototype.removeSprite = function(sprite) {
+game.Group.prototype.removeSprite = function(sprite) {
     if (sprite.getParent() != this) game.Errors.spriteDoesNotBelong();
 
 	sprite.setParent(null);
 	goog.array.remove(this.sprites_, sprite);
+	
+	return sprite;
 }
 
-game.Container.prototype.moveChildToBack = function(sprite) {
+game.Group.prototype.moveChildToBack = function(sprite) {
     if (sprite.getParent() != this) game.Errors.spriteDoesNotBelong();
 
 	goog.array.remove(this.sprites_, sprite);
 	goog.array.insertAt(this.sprites_, sprite, 0);
 }
 
-game.Container.prototype.moveChildBackward = function(sprite) {
+game.Group.prototype.moveChildBackward = function(sprite) {
     if (sprite.getParent() != this) game.Errors.spriteDoesNotBelong();
 
 	var i = goog.array.indexOf(this.sprites_, sprite);
@@ -61,7 +63,7 @@ game.Container.prototype.moveChildBackward = function(sprite) {
 	}
 }
 
-game.Container.prototype.moveChildForward = function(sprite) {
+game.Group.prototype.moveChildForward = function(sprite) {
     if (sprite.getParent() != this) game.Errors.spriteDoesNotBelong();
 
 	var i = goog.array.indexOf(this.sprites_, sprite);
@@ -72,31 +74,31 @@ game.Container.prototype.moveChildForward = function(sprite) {
 	}
 }
 
-game.Container.prototype.moveChildToFront = function(sprite) {
+game.Group.prototype.moveChildToFront = function(sprite) {
     if (sprite.getParent() != this) game.Errors.spriteDoesNotBelong();
 
 	goog.array.remove(this.sprites_, sprite);
 	goog.array.insertAt(this.sprites_, sprite, this.sprites_.length);
 }
 
-game.Container.prototype.render = function(ctx) {
+game.Group.prototype.render = function(ctx) {
 	goog.array.forEach(this.sprites_, function(obj, i, arr) {
 		obj.render(ctx);
 	});
 }
 
-game.Container.prototype.step = function(delta) {
+game.Group.prototype.step = function(delta) {
 	goog.array.forEach(this.sprites_, function(obj, i, arr) {
 		obj.step(delta);
 	});
 }
 
-game.Container.prototype.dispose = function() {	
+game.Group.prototype.dispose = function() {	
 	goog.array.forEach(this.sprites_, function(obj, i, arr) {
 		obj.dispose();
 	});
 	
 	goog.array.clear(this.sprites_);
 	
-	game.Container.superClass_.dispose.call(this);
+	game.Group.superClass_.dispose.call(this);
 }

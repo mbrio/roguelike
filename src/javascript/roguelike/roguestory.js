@@ -12,20 +12,25 @@
 
 // Copyright 2010 Michael Diolosa <michael.diolosa@gmail.com>. All Rights Reserved.
 
-goog.provide("game.DrawableObject");
-goog.require("game.GameObject");
-goog.require("game.Errors");
+goog.provide("roguelike.RogueStory");
 
-game.DrawableObject = function() {
-	game.GameObject.call(this);
-	
-	this.x = 0;
-	this.y = 0;
-	this.width = 0;
-	this.height = 0;
+goog.require("game.Story");
+
+goog.require('roguelike.MainScene');
+goog.require('roguelike.BeginScene');
+
+roguelike.RogueStory = function() {
+	game.Story.call(this);
 }
-goog.inherits(game.DrawableObject, game.GameObject);
+goog.inherits(roguelike.RogueStory, game.Story);
 
-game.DrawableObject.prototype.isDrawable = function() {
-	return this.getParent() != null;
+roguelike.RogueStory.prototype.init = function() {
+	roguelike.RogueStory.superClass_.init.call(this);
+	
+	this.scene0 = new roguelike.BeginScene("scene0");
+	this.scene1 = new roguelike.MainScene("scene1");
+
+	this.addScene(this.scene0);	
+	this.addScene(this.scene1);
+	this.setCurrentSceneByName("scene0");
 }

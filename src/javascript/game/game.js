@@ -24,16 +24,16 @@ goog.require('goog.graphics.Font');
 
 goog.require('game.Browser');
 goog.require('game.Errors')
-goog.require('game.Container')
+goog.require('game.Group')
 
 game.Game = function(container) {
-	game.Container.call(this);
+	game.Group.call(this);
 	
 	this.container_ = container;
 	this.graphics_ = null;
 	
-	this.width_ = 800;
-	this.height_ = 600;
+	this.width = 800;
+	this.height = 600;
 	
 	this.targetFramerate_ = 100;
 	
@@ -43,7 +43,10 @@ game.Game = function(container) {
 	this.validate_();
 	this.resetFrames_();
 }
-goog.inherits(game.Game, game.Container);
+goog.inherits(game.Game, game.Group);
+
+game.Game.prototype.getPositionX = function() { return 0; }
+game.Game.prototype.getPositionY = function() { return 0; }
 
 game.Game.prototype.resetFrames_ = function() {
 	this.renderDelay_ = 1000 / this.targetFramerate_,
@@ -98,7 +101,7 @@ game.Game.prototype.init = function() {
 	
 	console.debug("Initializing a new game.");
 	
-	this.graphics_ = new goog.graphics.CanvasGraphics(this.width_, this.height_);
+	this.graphics_ = new goog.graphics.CanvasGraphics(this.width, this.height);
 	this.graphics_.render(this.container_);
 }
 
